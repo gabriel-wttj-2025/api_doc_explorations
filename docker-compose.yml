@@ -1,0 +1,30 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: api_doc_explorations_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  web:
+    build: .
+    depends_on:
+      - db
+    ports:
+      - "4000:4000"
+    environment:
+      # These are used by your config/dev.exs (as you have it set up)
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: api_doc_explorations_dev
+      DATABASE_URL: ecto://postgres:postgres@db/api_doc_explorations_dev
+    volumes:
+      - .:/app
+
+volumes:
+  db_data:

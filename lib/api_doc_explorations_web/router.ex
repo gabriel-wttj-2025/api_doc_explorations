@@ -20,6 +20,14 @@ defmodule ApiDocExplorationsWeb.Router do
     get "/", PageController, :home
   end
 
+  scope "/api", ApiDocExplorationsWeb do
+    pipe_through :api
+
+    post "/users", UserController, :create
+    get "/users/:id", UserController, :show
+    get "/openapi", OpenApiSpex.Plug.RenderSpec, spec_module: ApiDocExplorationsWeb.ApiSpec
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", ApiDocExplorationsWeb do
   #   pipe_through :api

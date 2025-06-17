@@ -1,0 +1,168 @@
+{
+  "components": {
+    "responses": {},
+    "schemas": {
+      "ErrorResponse": {
+        "properties": {
+          "errors": {
+            "type": "object"
+          }
+        },
+        "title": "ErrorResponse",
+        "type": "object"
+      },
+      "UserRequest": {
+        "properties": {
+          "user": {
+            "properties": {
+              "email": {
+                "example": "alice@example.com",
+                "type": "string"
+              },
+              "name": {
+                "example": "Alice",
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "email"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "user"
+        ],
+        "title": "UserRequest",
+        "type": "object"
+      },
+      "UserResponse": {
+        "properties": {
+          "email": {
+            "example": "alice@example.com",
+            "type": "string"
+          },
+          "id": {
+            "example": 1,
+            "type": "integer"
+          },
+          "name": {
+            "example": "Alice",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "email"
+        ],
+        "title": "UserResponse",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "title": "API Doc Explorations",
+    "version": "1.0.0"
+  },
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/users": {
+      "post": {
+        "callbacks": {},
+        "operationId": "ApiDocExplorationsWeb.UserController.create",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRequest"
+              }
+            }
+          },
+          "description": "User params",
+          "required": false
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            },
+            "description": "User created"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Validation errors"
+          }
+        },
+        "summary": "Create a new user",
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/users/{id}": {
+      "get": {
+        "callbacks": {},
+        "operationId": "ApiDocExplorationsWeb.UserController.show",
+        "parameters": [
+          {
+            "description": "User ID",
+            "example": "123",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            },
+            "description": "User found"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "User not found"
+          }
+        },
+        "summary": "Get a user by ID",
+        "tags": [
+          "User"
+        ]
+      }
+    }
+  },
+  "security": [],
+  "servers": [
+    {
+      "url": "http://localhost:4000",
+      "variables": {}
+    }
+  ],
+  "tags": []
+}

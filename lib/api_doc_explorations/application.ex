@@ -27,7 +27,9 @@ defmodule ApiDocExplorations.Application do
 
     case Supervisor.start_link(children, opts) do
       {:ok, pid} ->
-        generate_openapi_json()
+        # Generate OpenAPI spec after successful startup
+        generate_openapi_spec()
+        {:ok, pid}
 
       error ->
         error
@@ -42,9 +44,10 @@ defmodule ApiDocExplorations.Application do
     :ok
   end
 
-  defp generate_openapi_json do
+  defp generate_openapi_spec do
     try do
-      spec = BookMyGigsWeb.ApiSpec.spec()
+      # Generate the spec
+      spec = ApiDocExplorationsWeb.ApiSpec.spec()
       json = Jason.encode!(spec, pretty: true)
 
       # Ensure the directory exists
